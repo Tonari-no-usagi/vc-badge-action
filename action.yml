@@ -1,6 +1,9 @@
 name: 'VC Badge Action'
 description: 'Issues an SD-JWT Verifiable Credential based on GitHub contributions'
-author: 'Your Organization'
+author: 'Tonari-no-usagi'
+branding:
+  icon: 'award'
+  color: 'white'
 inputs:
   issuer_did:
     description: 'DID of the issuer'
