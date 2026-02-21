@@ -27,6 +27,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add badges/
+          git add -f badges/
           git commit -m "Add contribution badge for ${{ github.event.pull_request.user.login }}" || echo "No changes to commit"
           git push origin main
