@@ -78,8 +78,17 @@ func main() {
 		log.Fatalf("Failed to sign and combine SD-JWT: %v", err)
 	}
 
-	// 結果の出力（GitHub Actionsのステップ出力やファイル保存など）
-	fmt.Printf("::set-output name=sd_jwt_vc::%s\n", sdJWT)
+	// 結果の出力（GitHub Actionsのステップ出力）
+	if output := os.Getenv("GITHUB_OUTPUT"); output != "" {
+		f, err := os.OpenFile(output, os.O_APPEND|os.O_WRONLY, 0644)
+		if err == nil {
+			fmt.Fprintf(f, "sd_jwt_vc=%s\n", sdJWT)
+			f.Close()
+		}
+	} else {
+		// ローカルデバッグ用
+		fmt.Printf("::set-output name=sd_jwt_vc::%s\n", sdJWT)
+	}
 
 	// Badge Directoryへの保存
 	badgeDir := fmt.Sprintf("badges/%s", event.PullRequest.User.Login)
