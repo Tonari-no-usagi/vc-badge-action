@@ -24,9 +24,11 @@ runs:
         go-version: '1.21'
     - name: Build action
       run: go build -o vc-badge-action main.go
+      shell: bash
       working-directory: ${{ github.action_path }}
     - name: Run action
       run: ${{ github.action_path }}/vc-badge-action
+      shell: bash
       env:
         INPUT_ISSUER_DID: ${{ inputs.issuer_did }}
         INPUT_ISSUER_PRIVATE_KEY: ${{ inputs.issuer_private_key }}
