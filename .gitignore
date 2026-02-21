@@ -7,7 +7,6 @@ docs/
 
 # Local testing
 test_event.json
-badges/
 
 # Go
 vendor/
