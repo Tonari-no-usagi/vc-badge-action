@@ -95,6 +95,6 @@ func main() {
 	fmt.Printf("Badge generated and saved to %s\n", hashPath)
 	fmt.Println("--------------------------------------------------")
 	fmt.Println("Verification Link (Paste your SD-JWT here):")
-	fmt.Println("https://your-org.github.io/vc-badge-action/verification/")
+	fmt.Println("https://your-org.github.io/vc-badge-action/")
 	fmt.Println("--------------------------------------------------")
 }

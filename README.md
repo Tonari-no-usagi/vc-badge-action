@@ -48,7 +48,7 @@ jobs:
 ## Verification Portal
 
 Once issued, the SD-JWT can be verified using the built-in portal at:
-`https://YOUR_GITHUB_ID.github.io/vc-badge-action/verification/`
+`https://YOUR_GITHUB_ID.github.io/vc-badge-action/`
 
 ## License
 
