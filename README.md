@@ -47,7 +47,7 @@ jobs:
 
 ## Verification Portal
 
-Once issued, the SD-JWT can be verified using the built-in portal at :
+Once issued, the SD-JWT can be verified using the built-in portal at:
 `https://tonari-no-usagi.github.io/vc-badge-action/`
 
 ## License
