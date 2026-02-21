@@ -48,7 +48,7 @@ jobs:
 ## 検証ポータル
 
 発行された SD-JWT は、同梱のポータルサイトで検証可能です：
-`https://YOUR_GITHUB_ID.github.io/vc-badge-action/`
+`https://tonari-no-usagi.github.io/vc-badge-action/`
 
 ## ライセンス
 
