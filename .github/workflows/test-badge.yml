@@ -1,0 +1,32 @@
+name: Test VC Badge Issuance
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+jobs:
+  issue_badge:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # バッジをリポジトリにコミットするために必要
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Issue VC Badge
+        uses: ./ # 自身のリポジトリのアクションを使用
+        id: vc_step
+        with:
+          issuer_did: "did:webvh:your-domain.com:scid-123"
+          issuer_private_key: ${{ secrets.VC_ISSUER_KEY }}
+          subject_did_regex: "DID: (did:.*)"
+
+      - name: Commit and Push Badge
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add badges/
+          git commit -m "Add contribution badge for ${{ github.event.pull_request.user.login }}" || echo "No changes to commit"
+          git push origin main
