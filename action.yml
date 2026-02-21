@@ -1,0 +1,36 @@
+name: 'VC Badge Action'
+description: 'Issues an SD-JWT Verifiable Credential based on GitHub contributions'
+author: 'Your Organization'
+inputs:
+  issuer_did:
+    description: 'DID of the issuer'
+    required: true
+  issuer_private_key:
+    description: 'Private key of the issuer (hex encoded Ed25519)'
+    required: true
+  subject_did_regex:
+    description: 'Regex to extract subject DID from PR body'
+    required: false
+    default: 'DID: (did:.*)'
+outputs:
+  sd_jwt_vc:
+    description: 'The generated SD-JWT VC'
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.21'
+    - name: Build action
+      run: go build -o vc-badge-action main.go
+      shell: cmd
+      working-directory: ${{ github.action_path }}
+    - name: Run action
+      run: ./vc-badge-action
+      shell: cmd
+      env:
+        INPUT_ISSUER_DID: ${{ inputs.issuer_did }}
+        INPUT_ISSUER_PRIVATE_KEY: ${{ inputs.issuer_private_key }}
+        INPUT_SUBJECT_DID_REGEX: ${{ inputs.subject_did_regex }}
+        GITHUB_EVENT_PATH: ${{ github.event_path }}

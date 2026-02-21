@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VC Badge Verifier</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Roboto+Mono&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --bg-light: #fdfeff;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --success: #16a34a;
+            --border: rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--text-main);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            backdrop-filter: blur(20px);
+            background: var(--card-bg);
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 3.5rem;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.05), 0 10px 20px -10px rgba(0, 0, 0, 0.04);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #4f46e5, #9333ea);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+        }
+
+        .input-group {
+            margin-bottom: 2.5rem;
+        }
+
+        textarea {
+            width: 100%;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.25rem;
+            color: var(--text-main);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.95rem;
+            resize: vertical;
+            min-height: 140px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1), inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1.25rem 2rem;
+            border-radius: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+        }
+
+        button:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.2);
+        }
+
+        #result {
+            margin-top: 4rem;
+            display: none;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            border-radius: 9999px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 2.5rem;
+        }
+
+        .status-success {
+            background: rgba(22, 163, 74, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(22, 163, 74, 0.2);
+        }
+
+        .claims-grid {
+            display: grid;
+            gap: 1.25rem;
+        }
+
+        .claim-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .claim-card:hover {
+            transform: scale(1.01);
+        }
+
+        .claim-label {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .claim-value {
+            font-weight: 700;
+            color: var(--text-main);
+            font-size: 1.05rem;
+        }
+
+        .badge-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 3rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="badge-icon">🛡️</div>
+        <h1>VC Badge Verifier</h1>
+        <p class="subtitle">SD-JWT 形式の VC バッジを検証・閲覧します。</p>
+
+        <div class="input-group">
+            <textarea id="vcInput" placeholder="ここに SD-JWT (JWT~D1~D2...) を貼り付けてください"></textarea>
+        </div>
+        <button onclick="verifyVC()">検証を開始</button>
+
+        <div id="result">
+            <div class="status-badge status-success" id="statusBadge">
+                ✓ 署名および選択的開示の整合性を確認しました
+            </div>
+
+            <div class="claims-grid" id="claimsGrid">
+                <!-- クレームがここに動的に追加されます -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Built with vc-badge-action & OpenAI
+    </footer>
+
+    <script src="verify.js"></script>
+</body>
+
+</html>

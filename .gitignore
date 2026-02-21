@@ -1,0 +1,15 @@
+# Binaries
+vc-badge
+vc-badge.exe
+
+# Documentation
+docs/
+
+# Local testing
+test_event.json
+badges/
+
+# Go
+vendor/
+*.out
+*.test
